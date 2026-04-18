@@ -6,7 +6,7 @@ function Projects() {
   const [selected, setSelected] = useState(null); // 👈 selected project
 
   useEffect(() => {
-    axios.get("http://localhost:5050/api/projects")
+    axios.get("https://construction-web-app.onrender.com/api/projects")
       .then(res => setProjects(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -28,7 +28,7 @@ function Projects() {
           >
             {p.image && (
               <img
-                src={`http://localhost:5050/uploads/${p.image}`}
+                src={`https://construction-web-app.onrender.com/uploads/${p.image}`}
                 alt={p.name}
                 style={styles.image}
               />
@@ -49,7 +49,7 @@ function Projects() {
           <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
 
             <img
-              src={`http://localhost:5050/uploads/${selected.image}`}
+              src={`https://construction-web-app.onrender.com/uploads/${selected.image}`}
               style={styles.modalImage}
               alt=""
             />

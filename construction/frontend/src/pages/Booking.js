@@ -25,7 +25,7 @@ function Booking() {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:5050/api/bookings",
+        "https://construction-web-app.onrender.com/api/bookings",
         form,
         {
           headers: {

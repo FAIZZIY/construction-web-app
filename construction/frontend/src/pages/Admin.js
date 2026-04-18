@@ -42,7 +42,7 @@ function Admin() {
     }
   
     try {
-      await axios.post("http://localhost:5050/api/projects/upload", data);
+      await axios.post("https://construction-web-app.onrender.com/api/projects/upload", data);
       alert("✅ Project Added Successfully!");
   
     } catch (err) {

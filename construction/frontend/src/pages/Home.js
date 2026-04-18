@@ -22,8 +22,8 @@ function Home() {
 
     sections.forEach((sec) => observer.observe(sec));
 
-    axios
-      .get("http://localhost:5050/api/projects")
+    
+    axios.get("https://construction-web-app.onrender.com/api/projects")
       .then((res) => setProjects(res.data))
       .catch((err) => console.error(err));
 
@@ -74,7 +74,7 @@ function Home() {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <img
-                src={`http://localhost:5050/uploads/${p.image}`}
+                src={`https://construction-web-app.onrender.com/uploads/${p.image}`}
                 alt={p.name}
               />
               <div className="project-overlay">
