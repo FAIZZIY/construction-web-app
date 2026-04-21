@@ -4,10 +4,16 @@ const mysql = require('mysql2');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// ================= ROOT CHECK =================
+app.get('/', (req, res) => {
+  res.send('🚀 Backend is running successfully');
+});
 
 // ================= ENSURE UPLOADS FOLDER =================
 const uploadDir = path.join(__dirname, 'uploads');
@@ -19,10 +25,10 @@ if (!fs.existsSync(uploadDir)) {
 
 // ================= DB CONNECTION =================
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'construction_db'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
@@ -36,7 +42,7 @@ db.connect((err) => {
 // ================= MULTER SETUP =================
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir); // ✅ FIXED PATH
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -59,7 +65,7 @@ app.get('/api/projects', (req, res) => {
   });
 });
 
-// ================= ADD PROJECT (WITHOUT IMAGE) =================
+// ================= ADD PROJECT =================
 app.post('/api/projects', (req, res) => {
   const { name, location, status } = req.body;
 
@@ -76,9 +82,8 @@ app.post('/api/projects', (req, res) => {
   );
 });
 
-// ================= UPLOAD PROJECT (WITH IMAGE + NEW FIELDS) =================
+// ================= UPLOAD PROJECT =================
 app.post('/api/projects/upload', upload.single('image'), (req, res) => {
-
   try {
     if (!req.file) {
       return res.status(400).send("❌ No image uploaded");
@@ -154,6 +159,8 @@ app.post('/api/bookings', (req, res) => {
 });
 
 // ================= START SERVER =================
-app.listen(5050, () => {
-  console.log('🚀 Server running on port 5050');
+const PORT = process.env.PORT || 5050;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
